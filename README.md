@@ -1,5 +1,12 @@
 ### **Phase 1: Dataset Generation & Curation**
 
+Sources:
+- https://huggingface.co/datasets/LLM-LAT/harmful-dataset
+- https://huggingface.co/datasets/LLM-LAT/benign-dataset
+- https://huggingface.co/datasets/mteb/ToxicChatClassification
+- https://huggingface.co/datasets/Anthropic/hh-rlhf
+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
+
 - [ ]  **Generate/Curate Training Dataset:** Gather the primary data for the classifier.
     - [ ]  Use a mix of published and synthetic datasets
     - [ ]  DVC for Dataset Tracking
