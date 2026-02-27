@@ -56,99 +56,90 @@ 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
 - Espionage, Spying, Stalking, Hacking, or Doxing
 - Chemical, Biological, Radiological, and Nuclear (CBRN) Threats
 
-### **Benign Content Categories (2 categories):**
-- Mildly Harmful
-- General Query and Response
+### **Benign Content Categories (9 categories):**
+- Child Sexual Abuse and Exploitation and Sex Crimes
+- Self-Harm and Suicide
+- Illegal Activities and Violent Crimes
+- Intellectual Property or Copyright Violations
+- Privacy or PII Violations
+- Defamation, Libel, or Slander
+- Defrauding, Scamming, Spamming, or Phishing
+- Espionage, Spying, Stalking, Hacking, or Doxing
+- Chemical, Biological, Radiological, and Nuclear (CBRN) Threats
 
 ### **Sources of Harmful Content:**
-- https://huggingface.co/datasets/LLM-LAT/harmful-dataset
-- https://huggingface.co/datasets/mteb/ToxicChatClassification
+- https://huggingface.co/datasets/PKU-Alignment/BeaverTails
+- https://huggingface.co/datasets/PKU-Alignment/PKU-SafeRLHF
 - https://huggingface.co/datasets/Anthropic/hh-rlhf
 - Synthetic dataset generated using Qwen model and vLLM
 
 ### **Sources of Benign Content:**
-- https://huggingface.co/datasets/LLM-LAT/benign-dataset
+- https://huggingface.co/datasets/PKU-Alignment/BeaverTails
+- https://huggingface.co/datasets/PKU-Alignment/PKU-SafeRLHF
 - https://huggingface.co/datasets/Anthropic/hh-rlhf
-- https://huggingface.co/datasets/mteb/ToxicChatClassification
 - Synthetic dataset generated using Qwen model and vLLM
 
 ### **Training Dataset:**
 
-#### **Total Harmful Samples: 9000**
-
-#### **Conversation type distribution of Harmful Samples:**
-
 | Conversation type | Samples |
 |--------------------|---------|
-| User query only | 3000 |
-| Assistant response only | 3000 |
-| Mixed Conversations | 3000 |
+| User query only | 5256 |
+| Assistant response only | 5256 |
+| Mixed Conversations | 5256 |
 
-#### **Source wise distribution of Harmful Samples:**
+#### Label 0 (Benign): 15768 total
+- CSAE: 1752 -> {'user_only': 584, 'single_turn': 584, 'multi_turn': 584}
+- SHS: 1752 -> {'user_only': 584, 'single_turn': 584, 'multi_turn': 584}
+- VC: 1752 -> {'user_only': 584, 'single_turn': 584, 'multi_turn': 584}
+- IP: 1752 -> {'user_only': 584, 'single_turn': 584, 'multi_turn': 584}
+- PII: 1752 -> {'user_only': 584, 'single_turn': 584, 'multi_turn': 584}
+- DEF: 1752 -> {'user_only': 584, 'single_turn': 584, 'multi_turn': 584}
+- SCAM: 1752 -> {'user_only': 584, 'single_turn': 584, 'multi_turn': 584}
+- ESP: 1752 -> {'user_only': 584, 'single_turn': 584, 'multi_turn': 584}
+- CBRN: 1752 -> {'user_only': 584, 'single_turn': 584, 'multi_turn': 584}
 
-| Source | Samples per category | Samples per source |
-|--------|----------------------|----------------------|
-| LLM-LAT/harmful-dataset | 250 | 2250 |
-| LLM-LAT/benign-dataset | 250 | 2250 |
-| mteb/ToxicChatClassification | 250 | 2250 |
-| Anthropic/hh-rlhf | 250 | 2250 |
-| Synthetic | 250 | 2250 |
+#### Label 1 (Harmful): 15768 total
+- CSAE: 1752 -> {'user_only': 584, 'single_turn': 584, 'multi_turn': 584}
+- SHS: 1752 -> {'user_only': 584, 'single_turn': 584, 'multi_turn': 584}
+- VC: 1752 -> {'user_only': 584, 'single_turn': 584, 'multi_turn': 584}
+- IP: 1752 -> {'user_only': 584, 'single_turn': 584, 'multi_turn': 584}
+- PII: 1752 -> {'user_only': 584, 'single_turn': 584, 'multi_turn': 584}
+- DEF: 1752 -> {'user_only': 584, 'single_turn': 584, 'multi_turn': 584}
+- SCAM: 1752 -> {'user_only': 584, 'single_turn': 584, 'multi_turn': 584}
+- ESP: 1752 -> {'user_only': 584, 'single_turn': 584, 'multi_turn': 584}
+- CBRN: 1752 -> {'user_only': 584, 'single_turn': 584, 'multi_turn': 584}
 
-#### **Total Benign Samples: 9000**
-
-#### **Conversation type distribution of Benign Samples:**
-
-| Conversation type | Samples |
-|--------------------|---------|
-| User query only | 3000 |
-| Assistant response only | 3000 |
-| Mixed Conversations | 3000 |
-
-#### **Source wise distribution of Benign Samples:**
-
-| Source | Samples per category | Samples per source |
-|--------|----------------------|----------------------|
-| LLM-LAT/benign-dataset | 1500 | 3000 |
-| mteb/ToxicChatClassification | 1500 | 3000 |
-| Synthetic | 1500 | 3000 |
+Total samples: 31536  (expected 2 x 9 x 3 x 584 = 31536)
 
 ### **Evaluation Dataset:**
 
-#### **Total Harmful Samples: 1800**
-
-#### **Conversation type distribution of Harmful Samples:**
-
 | Conversation type | Samples |
 |--------------------|---------|
-| User query only | 600 |
-| Assistant response only | 600 |
-| Mixed Conversations | 600 |
+| User query only | 630 |
+| Assistant response only | 630 |
+| Mixed Conversations | 630 |
 
 
-#### **Source wise distribution of Harmful Samples:**
+#### Label 0 (Benign): 1890 total
+- CSAE: 210 -> {'user_only': 70, 'single_turn': 70, 'multi_turn': 70}
+- SHS: 210 -> {'user_only': 70, 'single_turn': 70, 'multi_turn': 70}
+- VC: 210 -> {'user_only': 70, 'single_turn': 70, 'multi_turn': 70}
+- IP: 210 -> {'user_only': 70, 'single_turn': 70, 'multi_turn': 70}
+- PII: 210 -> {'user_only': 70, 'single_turn': 70, 'multi_turn': 70}
+- DEF: 210 -> {'user_only': 70, 'single_turn': 70, 'multi_turn': 70}
+- SCAM: 210 -> {'user_only': 70, 'single_turn': 70, 'multi_turn': 70}
+- ESP: 210 -> {'user_only': 70, 'single_turn': 70, 'multi_turn': 70}
+- CBRN: 210 -> {'user_only': 70, 'single_turn': 70, 'multi_turn': 70}
 
-| Source | Samples per category | Samples per source |
-|--------|----------------------|----------------------|
-| LLM-LAT/harmful-dataset | 50 | 450 |
-| LLM-LAT/benign-dataset | 50 | 450 |
-| mteb/ToxicChatClassification | 50 | 450 |
-| Anthropic/hh-rlhf | 50 | 450 |
-| Synthetic | 50 | 450 |
+#### Label 1 (Harmful): 1890 total
+- CSAE: 210 -> {'user_only': 70, 'single_turn': 70, 'multi_turn': 70}
+- SHS: 210 -> {'user_only': 70, 'single_turn': 70, 'multi_turn': 70}
+- VC: 210 -> {'user_only': 70, 'single_turn': 70, 'multi_turn': 70}
+- IP: 210 -> {'user_only': 70, 'single_turn': 70, 'multi_turn': 70}
+- PII: 210 -> {'user_only': 70, 'single_turn': 70, 'multi_turn': 70}
+- DEF: 210 -> {'user_only': 70, 'single_turn': 70, 'multi_turn': 70}
+- SCAM: 210 -> {'user_only': 70, 'single_turn': 70, 'multi_turn': 70}
+- ESP: 210 -> {'user_only': 70, 'single_turn': 70, 'multi_turn': 70}
+- CBRN: 210 -> {'user_only': 70, 'single_turn': 70, 'multi_turn': 70}
 
-
-#### **Total Benign Samples: 1800**
-
-#### **Conversation type distribution of Benign Samples:**
-| Conversation type | Samples |
-|--------------------|---------|
-| User query only | 600 |
-| Assistant response only | 600 |
-| Mixed Conversations | 600 |
-
-
-#### **Source wise distribution of Benign Samples:**
-| Source | Samples per category | Samples per source |
-|--------|----------------------|----------------------|
-| LLM-LAT/benign-dataset | 300 | 600 |
-| mteb/ToxicChatClassification | 300 | 600 |
-| Synthetic | 300 | 600 |
+Total samples: 3780  (expected 2 x 9 x 3 x 70 = 3780)
