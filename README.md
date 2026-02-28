@@ -17,7 +17,7 @@ Sources:
 ### **Phase 2: Model Training**
 
 - [ ]  **Train Model:** Fine-tune a binary classifier (e.g., using a **SmolLM** base).
-    - [ ]  DeBERTa
+    - [x]  RoBERTa
     - [ ]  Gemma 3-1B-IT
 - [ ]  **Deliverable:** Export the training log file (tracking loss, steps, etc.).
     - [ ]  WandB or MLFlow Experiment Tracking
