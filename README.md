@@ -71,18 +71,6 @@ Sources:
 - Espionage, Spying, Stalking, Hacking, or Doxing
 - Chemical, Biological, Radiological, and Nuclear (CBRN) Threats
 
-### **Sources of Harmful Content:**
-- https://huggingface.co/datasets/PKU-Alignment/BeaverTails
-- https://huggingface.co/datasets/PKU-Alignment/PKU-SafeRLHF
-- https://huggingface.co/datasets/Anthropic/hh-rlhf
-- Synthetic dataset generated using Qwen model and vLLM
-
-### **Sources of Benign Content:**
-- https://huggingface.co/datasets/PKU-Alignment/BeaverTails
-- https://huggingface.co/datasets/PKU-Alignment/PKU-SafeRLHF
-- https://huggingface.co/datasets/Anthropic/hh-rlhf
-- Synthetic dataset generated using Qwen model and vLLM
-
 ### **Training Dataset:**
 
 | Conversation type | Samples |
