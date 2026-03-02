@@ -1,0 +1,14 @@
+{
+    "model_name": "VijayRam1812/content-classifier-gemma",
+    "num_samples": 3780,
+    "num_positive_samples": 1890,
+    "num_negative_samples": 1890,
+    "precision_recall_auc": 0.9830559353811076,
+    "roc_auc": 0.9831025167268554,
+    "fpr_at_95_tpr": 0.04867724867724868,
+    "fpr_at_90_tpr": 0.033862433862433865,
+    "accuracy": 0.9494708994708995,
+    "precision": 0.9468700683850605,
+    "recall": 0.9523809523809523,
+    "f1_score": 0.9496175151675019
+}

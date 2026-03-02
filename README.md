@@ -16,24 +16,24 @@ Sources:
 
 ### **Phase 2: Model Training**
 
-- [ ]  **Train Model:** Fine-tune a binary classifier (e.g., using a **SmolLM** base).
+- [x]  **Train Model:** Fine-tune a binary classifier (e.g., using a **SmolLM** base).
     - [x]  RoBERTa
-    - [ ]  Gemma 3-1B-IT
-- [ ]  **Deliverable:** Export the training log file (tracking loss, steps, etc.).
-    - [ ]  WandB or MLFlow Experiment Tracking
-- [ ]  **Deliverable:** Finalize the training script/notebook.
-    - [ ]  Colab or Local
-- [ ]  **Deliverable:** Upload the trained model to **HuggingFace** and save the link.
+    - [x]  Gemma 3-1B-IT
+- [x]  **Deliverable:** Export the training log file (tracking loss, steps, etc.).
+    - [x]  WandB or MLFlow Experiment Tracking
+- [x]  **Deliverable:** Finalize the training script/notebook.
+    - [x]  Colab or Local
+- [x]  **Deliverable:** Upload the trained model to **HuggingFace** and save the link.
 
 ---
 
 ### **Phase 3: Evaluation & Analysis**
 
-- [ ]  **Run Evaluation:** Calculate the following metrics on your eval set:
+- [x]  **Run Evaluation:** Calculate the following metrics on your eval set:
     - **AUPR** & **ROC**
     - **FPR at 90% Recall**
     - **FPR at 95% Recall**
-- [ ]  **Deliverable:** Include the evaluation code.
+- [x]  **Deliverable:** Include the evaluation code.
 - [ ]  **Deliverable:** Create a 10-sample subset showing "Sample | Prediction | Ground Truth."
 - [ ]  **Deliverable:** Write the discussion of findings (analysis of performance and edge cases).
 - [ ]  **Deliverable:** List the final evaluation metrics clearly.
@@ -207,3 +207,5 @@ Total samples: 3780  (expected 2 x 9 x 3 x 70 = 3780)
 | **Prompt strategy** | Contrastive pairs — each call produces both a harmful and benign example on the same topic, ensuring the model learns the boundary |
 | **Balancing** | Two-stage: coarse hierarchical balancing first, then fine-grained per-cell standardization with generation to minimize duplicate sampling |
 | **Message normalization** | Handles Hub dataset quirks (`:role`, `-role` keys) and enforces alternating user/assistant for Gemma compatibility |
+
+
