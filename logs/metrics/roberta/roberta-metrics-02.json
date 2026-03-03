@@ -1,0 +1,16 @@
+{
+    "model_name": "VijayRam1812/content-classifier-roberta",
+    "num_samples": 3780,
+    "total_inference_time_seconds": 1.2663264274597168,
+    "latency_per_sample_seconds": 0.0003350069913914595,
+    "num_positive_samples": 1890,
+    "num_negative_samples": 1890,
+    "precision_recall_auc": 0.9882913344057669,
+    "roc_auc": 0.9889636348366507,
+    "fpr_at_95_tpr": 0.040740740740740744,
+    "fpr_at_90_tpr": 0.02857142857142857,
+    "accuracy": 0.9544973544973545,
+    "precision": 0.9554612937433722,
+    "recall": 0.9534391534391534,
+    "f1_score": 0.9544491525423728
+}

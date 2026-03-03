@@ -1,0 +1,16 @@
+{
+    "model_name": "VijayRam1812/content-classifier-gemma",
+    "num_samples": 3780,
+    "total_inference_time_seconds": 20.169004678726196,
+    "latency_per_sample_seconds": 0.005335715523472538,
+    "num_positive_samples": 1890,
+    "num_negative_samples": 1890,
+    "precision_recall_auc": 0.9815208990240789,
+    "roc_auc": 0.9807364015565073,
+    "fpr_at_95_tpr": 0.0761904761904762,
+    "fpr_at_90_tpr": 0.03439153439153439,
+    "accuracy": 0.93994708994709,
+    "precision": 0.9541234298197706,
+    "recall": 0.9243386243386243,
+    "f1_score": 0.9389948938457404
+}
