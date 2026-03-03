@@ -208,4 +208,43 @@ Total samples: 3780  (expected 2 x 9 x 3 x 70 = 3780)
 | **Balancing** | Two-stage: coarse hierarchical balancing first, then fine-grained per-cell standardization with generation to minimize duplicate sampling |
 | **Message normalization** | Handles Hub dataset quirks (`:role`, `-role` keys) and enforces alternating user/assistant for Gemma compatibility |
 
+---
+
+## **Repository Guide**
+
+This section provides a high-level overview of the repository structure to help you navigate the files and understand their specific purposes:
+
+### 📁 Root Directory
+- `README.md`: The main documentation for the project, detailing methodology, datasets, and structure.
+- `main.py` / `pyproject.toml`: Project entry points and dependency configurations for standard environment setups.
+
+### 📁 scripts/
+Contains all the Jupyter Notebooks used for data processing, model training, and evaluation.
+- `train_data_generator.ipynb`: Code for curating, balancing, and synthetically generating the training dataset (Track 1).
+- `eval_data_generator.ipynb`: Code for generating the purely synthetic evaluation dataset (Track 2).
+- `data_processing.ipynb`: Utility notebook for testing out raw message parsing and standardization mappings.
+- `model_trainer_roberta.ipynb`: Complete training pipeline for the RoBERTa model, including Optuna hyperparameter sweeps.
+- `model_trainer_gemma.ipynb`: Complete training pipeline for the Gemma 3-1B-IT model, using a custom BCE Loss implementation for binary classification.
+- `model_evaluation_roberta.ipynb`: Evaluation script for RoBERTa, producing test metrics (AUPR, ROC AUC, FPR) and False Positive/Negative reviews.
+- `model_evaluation_gemma.ipynb`: Evaluation script for Gemma 3-1B-IT, producing identical test metrics.
+- `model_inferencing.ipynb`: An inference sandbox providing single-sample and batch-processing wrapper functions for quick testing across both models.
+
+### 📁 data/
+Stores the raw datasets and generated files used throughout the project lifecycle.
+- **raw/**: Starting raw imports (if saved locally).
+- **train/**: Contains the final balanced subsets (`train_sampled.csv`, `val_sampled.csv`).
+- **test/**: Contains the 100% synthetic eval set (`test_dataset.csv`).
+
+### 📁 logs/
+Stores output metrics, experimental runs, and result datasets generated during notebook execution.
+- **experiments/**: Hyperparameter tracking runs (CSV logs).
+- **metrics/**: JSON files containing the final output scores (AUPR, FPR, Latency) for each trained model.
+- **outputs/**: Test prediction CSVs populated with model confidences (`test_predictions_gemma.csv`, `test_predictions_roberta.csv`).
+
+### 📁 docs/
+Holds PDF versions or Markdown extracts of completed run reports for easier review without re-executing notebooks.
+
+### 📁 utils/
+- `gpu_verify.py`: Quick diagnostic script to check GPU availability and CUDA bindings before running local training blocks.
+
 
