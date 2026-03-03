@@ -237,6 +237,9 @@ Stores the raw datasets and generated files used throughout the project lifecycl
 
 ### 📁 logs/
 Stores output metrics, experimental runs, and result datasets generated during notebook execution.
+
+> **Note:** Files with the suffix `_01` indicate results or outcomes from models trained using standard Cross-Entropy Loss (treated as multi-class classification), whereas files with the suffix `_02` represent outcomes from models properly trained using Binary Cross-Entropy (BCE) Loss (binaru classification).
+
 - **experiments/**: Hyperparameter tracking runs (CSV logs).
 - **metrics/**: JSON files containing the final output scores (AUPR, FPR, Latency) for each trained model.
 - **outputs/**: Test prediction CSVs populated with model confidences (`test_predictions_gemma.csv`, `test_predictions_roberta.csv`).
