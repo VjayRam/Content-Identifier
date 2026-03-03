@@ -34,7 +34,7 @@ Sources:
     - **FPR at 90% Recall**
     - **FPR at 95% Recall**
 - [x]  **Deliverable:** Include the evaluation code.
-- [ ]  **Deliverable:** Create a 10-sample subset showing "Sample | Prediction | Ground Truth."
+- [x]  **Deliverable:** Create a 10-sample subset showing "Sample | Prediction | Ground Truth."
 - [ ]  **Deliverable:** Write the discussion of findings (analysis of performance and edge cases).
 - [ ]  **Deliverable:** List the final evaluation metrics clearly.
 
