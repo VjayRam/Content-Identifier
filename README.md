@@ -18,22 +18,22 @@ This section provides a high-level overview of the repository structure to help 
 - `main.py`: A streamlit app for interactive use of the trained content classifier models, allowing users to input prompts and receive real-time classifications. 
   - Terminal Command: `streamlit run main.py`
 
-* **Note**: Use Gemma model in the UI only if you have the necessary GPU resources and are aware of the latency implications. RoBERTa is recommended for general use due to its efficiency. 
+> **Note**: Use Gemma model in the Sreamlit UI only if you have the necessary GPU resources and are aware of the latency implications. RoBERTa is recommended for general use due to its efficiency. 
 
 ### 📁 scripts/
 Contains all the Jupyter Notebooks used for data processing, model training, and evaluation.
-- `train_data_generator.ipynb`: Code for curating, balancing, and synthetically generating the training dataset (Track 1).
-- `eval_data_generator.ipynb`: Code for generating the purely synthetic evaluation dataset (Track 2).
-- `data_processing.ipynb`: Utility notebook for testing out raw message parsing and standardization mappings.
-- `model_trainer_roberta.ipynb`: Complete training pipeline for the RoBERTa model, including Optuna hyperparameter sweeps.
-- `model_trainer_gemma.ipynb`: Complete training pipeline for the Gemma 3-1B-IT model, using a custom BCE Loss implementation for binary classification.
-- `model_evaluation_roberta.ipynb`: Evaluation script for RoBERTa, producing test metrics (AUPR, ROC AUC, FPR) and False Positive/Negative reviews.
-- `model_evaluation_gemma.ipynb`: Evaluation script for Gemma 3-1B-IT, producing identical test metrics.
-- `model_inferencing.ipynb`: An inference sandbox providing single-sample and batch-processing wrapper functions for quick testing across both models.
+- `train_data_generator.ipynb`: Code for curating, balancing, and synthetically generating the training dataset (Track 1). [Click to view](.\scripts\train_data_generator.ipynb)
+- `eval_data_generator.ipynb`: Code for generating the purely synthetic evaluation dataset (Track 2). [Click to view](.\scripts\eval_data_generator.ipynb)
+- `data_processing.ipynb`: Utility notebook for testing out raw message parsing and standardization mappings. [Click to view](.\scripts\data_processing.ipynb)
+- `model_trainer_roberta.ipynb`: Complete training pipeline for the RoBERTa model, including Optuna hyperparameter sweeps. [Click to view](.\scripts\model_trainer_roberta.ipynb)
+- `model_trainer_gemma.ipynb`: Complete training pipeline for the Gemma 3-1B-IT model, using a custom BCE Loss implementation for binary classification. [Click to view](.\scripts\model_trainer_gemma.ipynb)
+- `model_evaluation_roberta.ipynb`: Evaluation script for RoBERTa, producing test metrics (AUPR, ROC AUC, FPR) and False Positive/Negative reviews. [Click to view](.\scripts\model_evaluation_roberta.ipynb)
+- `model_evaluation_gemma.ipynb`: Evaluation script for Gemma 3-1B-IT, producing identical test metrics. [Click to view](.\scripts\model_evaluation_gemma.ipynb)
+- `model_inferencing.ipynb`: An inference sandbox providing single-sample and batch-processing wrapper functions for quick testing across both models. [Click to view](.\scripts\model_inferencing.ipynb)
 
 ### 📁 data/
 Stores the raw datasets and generated files used throughout the project lifecycle.
-- **raw/**: Starting raw imports (if saved locally).
+- **raw/**: Full dataset with all 31,536 samples split into train and validation sets balanced across 54 category combinations (`train_dataset.csv`, `val_dataset.csv`). 
 - **train/**: Contains the final balanced subsets (`train_sampled.csv`, `val_sampled.csv`).
 - **test/**: Contains the 100% synthetic eval set (`test_dataset.csv`).
 
@@ -44,10 +44,16 @@ Stores output metrics, experimental runs, and result datasets generated during n
 
 - **experiments/**: Hyperparameter tracking runs (CSV logs).
 - **metrics/**: JSON files containing the final output scores (AUPR, FPR, Latency) for each trained model.
-- **outputs/**: Test prediction CSVs populated with model confidences (`test_predictions_gemma.csv`, `test_predictions_roberta.csv`). A small subset of these predictions (e.g., `sample_predictions_gemma.csv`, `sample_predictions_roberta.csv`) is also saved for manual review of False Positives/Negatives.
+- **outputs/**: Test prediction CSVs populated with model confidences (`test_predictions_gemma.csv`, `test_predictions_roberta.csv`). 
+
+> A small subset of these predictions (e.g., `sample_predictions_gemma.csv`, `sample_predictions_roberta.csv`) is also saved for manual review of False Positives/Negatives in the /outputs folder.
 
 ### 📁 docs/
-Holds PDF versions or Markdown extracts of completed run reports for easier review without re-executing notebooks.
+Contains detailed reports and documentation on the dataset curation process, model training, and evaluation results.
+- `Dataset Generation Report.md`: A comprehensive report on the dataset curation strategy, including the use of vLLM for balancing and synthetic generation. [(Click to view)](.\docs\Dataset%20Generation%20Report.md)
+- `Approach and Thought Process.md`: A detailed walkthrough of the entire project, from initial planning to final evaluation, including the rationale behind each decision and the methodologies implemented. [(Click to view)](.\docs\Approach%20and%20Thought%20Process.md)
+- `RoBERTa Training Report for Content Identifier.md`: A detailed report on the training process for the RoBERTa model, including hyperparameter tuning results and final performance metrics. [(Click to view)](.\docs\RoBERTa%20Training%20Report%20for%20Content%20Identifier.md)
+- `Gemma Training Report for Content Identifier.md`: A detailed report on the training process for the Gemma model, including the implementation of Binary Cross-Entropy Loss and final performance metrics. [(Click to view)](.\docs\Gemma%20Training%20Report%20for%20Content%20Identifier.md)
 
 ### 📁 utils/
 - `gpu_verify.py`: Quick diagnostic script to check GPU availability and CUDA bindings before running local training blocks.
@@ -100,14 +106,15 @@ During the initial training runs, I made a conceptual mistake: the Hugging Face 
 ### 4.3 Model Configuration (RoBERTa - Primary)
 RoBERTa was trained as a Sequence Classifier (`AutoModelForSequenceClassification`). Following the correction to the binary loss logic, I trained it successfully. As an encoder-only architecture, RoBERTa is explicitly optimized for full-context comprehension, which is necessary for nuanced content safety checks.
 
-### 4.4 Model Configuration (Gemma - Comparative)
-Gemma (e.g., 1B-IT/3B-IT) was loaded with a classification head. To fully implement the corrected shift to Binary Cross-Entropy Loss with `num_labels = 1`, adapting this SLM involved explicitly implementing a custom `BCETrainer` class to override Hugging Face's default loss behaviors, practically utilizing `nn.BCEWithLogitsLoss` to ensure numerical stability and correct binary logit assessment.
-
-For Gemma Training Report: [Gemma Training Report](.\docs\Gemma%20Training%20Report%20for%20Content%20Identifier.md)
 
 For RoBERTa Training Report: [RoBERTa Training Report](.\docs\RoBERTa%20Training%20Report%20for%20Content%20Identifier.md)
 
 Trained RoBERTa model: [Content Classifier - RoBERTa - HF](https://huggingface.co/VijayRam1812/content-classifier-roberta)
+
+### 4.4 Model Configuration (Gemma - Comparative)
+Gemma (e.g., 1B-IT/3B-IT) was loaded with a classification head. To fully implement the corrected shift to Binary Cross-Entropy Loss with `num_labels = 1`, adapting this SLM involved explicitly implementing a custom `BCETrainer` class to override Hugging Face's default loss behaviors, practically utilizing `nn.BCEWithLogitsLoss` to ensure numerical stability and correct binary logit assessment.
+
+For Gemma Training Report: [Gemma Training Report](.\docs\Gemma%20Training%20Report%20for%20Content%20Identifier.md)
 
 Trained Gemma model: [Content Classifier - Gemma 3-1B-IT - HF](https://huggingface.co/VijayRam1812/content-classifier-gemma)
 
@@ -126,7 +133,7 @@ Results on the Test Set with correct training (BCE Loss):
 | **Accuracy** | 95.44% | 93.99% |
 | **Precision** | 95.54% | 95.41% |
 | **Recall** | 95.34% | 92.43% |
-| **F1 Score** | 95.44% | 93.89% |
+| **F1 Score** | 0.9544 | 0.9389 |
 | **PR-AUC** | 0.9882 | 0.9815 |
 | **ROC-AUC** | 0.9889 | 0.9807 |
 | **FPR @ 95% TPR** | 4.07% | 7.61% |
@@ -137,11 +144,20 @@ Results on the Test Set with correct training (BCE Loss):
 
 The results demonstrate that **RoBERTa is the superior choice for real-world deployment**. Not only did it outperform Gemma across virtually all metrics (unlike what was initially assumed), but its inherent structural characteristics multiply its advantages:
 
-1. **Overall Performance:** RoBERTa achieved a comprehensively better metric profile: higher Accuracy (95.44% vs 93.99%), better ROC-AUC (0.9889 vs 0.9807), and significantly lower False Positive Rates (FPR @ 95% TPR is 4.07% for RoBERTa compared to Gemma's 7.61%). This indicates that its representational capacity perfectly managed to capture the complex nuances modeled during our high-quality synthetic data generation better than the heavier SLM architecture.
-2. **Computational Efficiency:** RoBERTa is an encoder-only model with roughly 125M - 355M parameters (depending on Base/Large), phenomenally smaller than the Gemma SLM (1B+ parameters). This translates to massively reduced VRAM footprints during both training and inference.
-3. **Inference Latency:** Classifying incoming prompts or conversations requires real-time speed. As the metrics show, RoBERTa completely outclasses Gemma in inference latency, executing at **0.335 ms per sample** compared to Gemma's sluggish **5.33 ms per sample** - RoBERTa is nearly **16 times faster**. 
-4. **Architectural Suitability:** The task is natively a sequence classification problem. By processing entire bidirectional contexts efficiently, RoBERTa avoids the generation-centric overhead and key-value caching limitations of decoder-only autoregressive models.
-5. **Training Simplicity:** Fine-tuning the RoBERTa model was straightforward and faster, utilizing standard APIs without requiring custom loss implementations (`BCETrainer`) or complex template formatting adjustments necessary for instructional LLMs.
+1. **Overall Performance:** 
+  - RoBERTa achieved a comprehensively better metric profile: higher Accuracy (95.44% vs 93.99%), better ROC-AUC (0.9889 vs 0.9807), and significantly lower False Positive Rates (FPR @ 95% TPR is 4.07% for RoBERTa compared to Gemma's 7.61%). 
+  - This indicates that its representational capacity perfectly managed to capture the complex nuances modeled during our high-quality synthetic data generation better than the heavier SLM architecture.
+2. **Computational Efficiency:** 
+  -  RoBERTa is an encoder-only model with roughly 125M - 355M parameters (depending on Base/Large), phenomenally smaller than the Gemma SLM (1B+ parameters). 
+  - This translates to massively reduced VRAM footprints during both training and inference.
+3. **Inference Latency:** 
+  - Classifying incoming prompts or conversations requires real-time speed. 
+  - As the metrics show, RoBERTa completely outclasses Gemma in inference latency, executing at **0.335 ms per sample** compared to Gemma's sluggish **5.33 ms per sample** - RoBERTa is nearly **16 times faster**. 
+4. **Architectural Suitability:** 
+  - The task is natively a sequence classification problem. 
+  - By processing entire bidirectional contexts efficiently, RoBERTa avoids the generation-centric overhead and key-value caching limitations of decoder-only autoregressive models.
+5. **Training Simplicity:** 
+  - Fine-tuning the RoBERTa model was straightforward and faster, utilizing standard APIs without requiring custom loss implementations (`BCETrainer`) or complex template formatting adjustments necessary for instructional LLMs.
 
 ## 6. Learnings and Reflections
 - **Data Quality is Paramount:** 
