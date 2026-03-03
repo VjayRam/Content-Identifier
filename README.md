@@ -1,222 +1,24 @@
-### **Phase 1: Dataset Generation & Curation**
+# Content Identifier: Training and Evaluation Report
+Task Link: [Gray Swan Take Home Technical Task](https://you.ashbyhq.com/Gray%20Swan%20AI/assignment/d5de60e3-292d-446f-90d2-c1f61559afe2)
 
-Sources:
-- https://huggingface.co/datasets/PKU-Alignment/BeaverTails
-- https://huggingface.co/datasets/PKU-Alignment/PKU-SafeRLHF
-- https://huggingface.co/datasets/Anthropic/hh-rlhf
+## 1. Summary
+This report details the end-to-end process of building a binary classification model designed to identify harmful content within conversational data. The project involves comprehensive dataset curation, automated hyperparameter tuning, model training, and rigorous evaluation. 
 
-- [x]  **Generate/Curate Training Dataset:** Gather the primary data for the classifier.
-    - [x]  Use a mix of published and synthetic datasets
-- [x]  **Create Synthetic Eval Dataset:** Generate a separate set of 2k–4k synthetic samples.
-- [x]  **Deliverable:** Upload the training set to **HuggingFace** and save the link.
-- [x]  **Deliverable:** Prepare the evaluation dataset (as a `.json` or HF link).
-- [x]  **Deliverable:** Clean up and include your generation/compilation code.
+**RoBERTa** was selected as the primary model for its strong performance in text classification tasks while remaining highly resource-efficient. To validate this choice, I also trained a **Gemma** Small Language Model (SLM) for comparison. The results demonstrate that RoBERTa achieves near state-of-the-art accuracy that is statistically comparable to the heavier Gemma model, offering significant advantages in inference speed, compute efficiency, and deployment feasibility for enterprise applications.
+
+> For detailed approach and step by step thought process: [Approach and Thought Process](.\docs\Approach%20and%20Thought%20Process.md)
 
 ---
-
-### **Phase 2: Model Training**
-
-- [x]  **Train Model:** Fine-tune a binary classifier (e.g., using a **SmolLM** base).
-    - [x]  RoBERTa
-    - [x]  Gemma 3-1B-IT
-- [x]  **Deliverable:** Export the training log file (tracking loss, steps, etc.).
-    - [x]  WandB or MLFlow Experiment Tracking
-- [x]  **Deliverable:** Finalize the training script/notebook.
-    - [x]  Colab or Local
-- [x]  **Deliverable:** Upload the trained model to **HuggingFace** and save the link.
-
----
-
-### **Phase 3: Evaluation & Analysis**
-
-- [x]  **Run Evaluation:** Calculate the following metrics on your eval set:
-    - **AUPR** & **ROC**
-    - **FPR at 90% Recall**
-    - **FPR at 95% Recall**
-- [x]  **Deliverable:** Include the evaluation code.
-- [x]  **Deliverable:** Create a 10-sample subset showing "Sample | Prediction | Ground Truth."
-- [ ]  **Deliverable:** Write the discussion of findings (analysis of performance and edge cases).
-- [ ]  **Deliverable:** List the final evaluation metrics clearly.
-
-
-
-## **Dataset Summary:**
-
-### Dimensions
-
-- **Labels (2):** `0` = Benign, `1` = Harmful
-- **Categories (9):** CSAE, SHS, VC, IP, PII, DEF, SCAM, ESP, CBRN
-- **Conversation Types (3):** `user_only`, `single_turn`, `multi_turn`
-- **Target cells:** 2 x 9 x 3 = **54 unique combinations**
-
-### **Harmful Content Categories (9 categories):**
-- Child Sexual Abuse and Exploitation and Sex Crimes
-- Self-Harm and Suicide
-- Illegal Activities and Violent Crimes
-- Intellectual Property or Copyright Violations
-- Privacy or PII Violations
-- Defamation, Libel, or Slander
-- Defrauding, Scamming, Spamming, or Phishing
-- Espionage, Spying, Stalking, Hacking, or Doxing
-- Chemical, Biological, Radiological, and Nuclear (CBRN) Threats
-
-### **Benign Content Categories (9 categories):**
-- Child Sexual Abuse and Exploitation and Sex Crimes
-- Self-Harm and Suicide
-- Illegal Activities and Violent Crimes
-- Intellectual Property or Copyright Violations
-- Privacy or PII Violations
-- Defamation, Libel, or Slander
-- Defrauding, Scamming, Spamming, or Phishing
-- Espionage, Spying, Stalking, Hacking, or Doxing
-- Chemical, Biological, Radiological, and Nuclear (CBRN) Threats
-
-### **Training Dataset:**
-
-| Conversation type | Samples |
-|--------------------|---------|
-| User query only | 5256 |
-| Assistant response only | 5256 |
-| Mixed Conversations | 5256 |
-
-#### Label 0 (Benign): 15768 total
-- CSAE: 1752 -> {'user_only': 584, 'single_turn': 584, 'multi_turn': 584}
-- SHS: 1752 -> {'user_only': 584, 'single_turn': 584, 'multi_turn': 584}
-- VC: 1752 -> {'user_only': 584, 'single_turn': 584, 'multi_turn': 584}
-- IP: 1752 -> {'user_only': 584, 'single_turn': 584, 'multi_turn': 584}
-- PII: 1752 -> {'user_only': 584, 'single_turn': 584, 'multi_turn': 584}
-- DEF: 1752 -> {'user_only': 584, 'single_turn': 584, 'multi_turn': 584}
-- SCAM: 1752 -> {'user_only': 584, 'single_turn': 584, 'multi_turn': 584}
-- ESP: 1752 -> {'user_only': 584, 'single_turn': 584, 'multi_turn': 584}
-- CBRN: 1752 -> {'user_only': 584, 'single_turn': 584, 'multi_turn': 584}
-
-#### Label 1 (Harmful): 15768 total
-- CSAE: 1752 -> {'user_only': 584, 'single_turn': 584, 'multi_turn': 584}
-- SHS: 1752 -> {'user_only': 584, 'single_turn': 584, 'multi_turn': 584}
-- VC: 1752 -> {'user_only': 584, 'single_turn': 584, 'multi_turn': 584}
-- IP: 1752 -> {'user_only': 584, 'single_turn': 584, 'multi_turn': 584}
-- PII: 1752 -> {'user_only': 584, 'single_turn': 584, 'multi_turn': 584}
-- DEF: 1752 -> {'user_only': 584, 'single_turn': 584, 'multi_turn': 584}
-- SCAM: 1752 -> {'user_only': 584, 'single_turn': 584, 'multi_turn': 584}
-- ESP: 1752 -> {'user_only': 584, 'single_turn': 584, 'multi_turn': 584}
-- CBRN: 1752 -> {'user_only': 584, 'single_turn': 584, 'multi_turn': 584}
-
-Total samples: 31536  (expected 2 x 9 x 3 x 584 = 31536)
-
-### **Test Dataset:**
-
-| Conversation type | Samples |
-|--------------------|---------|
-| User query only | 630 |
-| Assistant response only | 630 |
-| Mixed Conversations | 630 |
-
-
-#### Label 0 (Benign): 1890 total
-- CSAE: 210 -> {'user_only': 70, 'single_turn': 70, 'multi_turn': 70}
-- SHS: 210 -> {'user_only': 70, 'single_turn': 70, 'multi_turn': 70}
-- VC: 210 -> {'user_only': 70, 'single_turn': 70, 'multi_turn': 70}
-- IP: 210 -> {'user_only': 70, 'single_turn': 70, 'multi_turn': 70}
-- PII: 210 -> {'user_only': 70, 'single_turn': 70, 'multi_turn': 70}
-- DEF: 210 -> {'user_only': 70, 'single_turn': 70, 'multi_turn': 70}
-- SCAM: 210 -> {'user_only': 70, 'single_turn': 70, 'multi_turn': 70}
-- ESP: 210 -> {'user_only': 70, 'single_turn': 70, 'multi_turn': 70}
-- CBRN: 210 -> {'user_only': 70, 'single_turn': 70, 'multi_turn': 70}
-
-#### Label 1 (Harmful): 1890 total
-- CSAE: 210 -> {'user_only': 70, 'single_turn': 70, 'multi_turn': 70}
-- SHS: 210 -> {'user_only': 70, 'single_turn': 70, 'multi_turn': 70}
-- VC: 210 -> {'user_only': 70, 'single_turn': 70, 'multi_turn': 70}
-- IP: 210 -> {'user_only': 70, 'single_turn': 70, 'multi_turn': 70}
-- PII: 210 -> {'user_only': 70, 'single_turn': 70, 'multi_turn': 70}
-- DEF: 210 -> {'user_only': 70, 'single_turn': 70, 'multi_turn': 70}
-- SCAM: 210 -> {'user_only': 70, 'single_turn': 70, 'multi_turn': 70}
-- ESP: 210 -> {'user_only': 70, 'single_turn': 70, 'multi_turn': 70}
-- CBRN: 210 -> {'user_only': 70, 'single_turn': 70, 'multi_turn': 70}
-
-Total samples: 3780  (expected 2 x 9 x 3 x 70 = 3780)
-
-### **Dataset Curation Algorithm:**
-
-### Track 1: Training Data (`train_data_generator.ipynb`)
-
-**Step 1 — Ingest & Compile** existing open-source datasets into a unified `{messages, label, source}` format:
-- **BeaverTails** (PKU-Alignment) — single-turn prompt/response pairs with `is_safe` labels
-- **PKU-SafeRLHF** — single-turn with two responses per prompt, each independently labeled safe/unsafe
-- **Anthropic HH-RLHF** — multi-turn Human/Assistant conversations; `chosen` mapped to benign, `rejected` to harmful; parsed from Anthropic's custom text format into `[{role, content}]`
-
-**Step 2 — Conversation Type Mutation.** Each sample is assigned a `conv_type`:
-- Messages with > 2 turns become `multi_turn`
-- Of the remaining single-turn pairs, ~20% are randomly **mutated to `user_only`** by dropping the assistant response
-- The rest stay `single_turn`
-- A `raw_text` column is built: `"USER: ...\nASSISTANT: ..."`
-
-**Step 3 — vLLM Category Classification.** Qwen 2.5-7B-Instruct-AWQ classifies each sample into one of the 9 safety categories:
-- A zero-shot system prompt lists all 9 category abbreviations with descriptions
-- The model reads `raw_text` and returns the best-matching abbreviation
-- Unclassified samples are filtered out
-- Capped at 30,000 samples for GPU efficiency
-
-**Step 4 — Hierarchical 3D Balancing.** A two-pass algorithm balances across all three dimensions:
-- Computes target counts: `target_total / 2 labels / 9 categories / 3 types`
-- **Pass 1:** For each (label, category, type) cell, take up to `target_per_type` samples
-- **Pass 2:** Any shortfall in a type is backfilled from leftover samples in the same (label, category) group
-
-**Step 5 — Gap Analysis & Generation-Based Filling.** After balancing, the `analyze_and_standardize` function:
-1. **Analyzes** every (label, category, conv_type) cell and prints a BEFORE summary
-2. **Computes** the target per cell (max count across all 54 cells)
-3. **Generates** new samples for under-filled cells using vLLM (Qwen 2.5-7B-Instruct-AWQ):
-   - For each (category, conv_type) with shortfall, builds a **contrastive generation prompt** that produces a JSON array of 2 items (1 harmful + 1 benign)
-   - The prompt is tailored per `conv_type`: user_only requires exactly 1 message, single_turn requires user + assistant, multi_turn requires 4-6 alternating messages
-   - Generated messages are normalized (handles `:role`/`-role` key quirks) and `raw_text` is populated
-4. **Standardizes** — any residual shortfall is filled by sampling with replacement; excess cells are trimmed down
-5. Prints an AFTER summary with final counts
-
-**Step 6 — Gemma Formatting & Stratified Split:**
-- Messages are normalized for Gemma's chat template (alternating user/assistant, merges consecutive same-role)
-- `label` is cast to `ClassLabel(["benign", "harmful"])`
-- A composite `stratify_key = "{label}_{category}"` enables **stratified train/val split** (90/10) that preserves proportions
-- Final `DatasetDict` with `train` and `val` splits is saved and pushed to the Hub
-
----
-
-### Track 2: Eval Data (`eval_data_generator.ipynb`)
-
-**Step 1 — Bulk Synthetic Generation.** No existing datasets — everything is generated from scratch:
-- 70 requests per (category, conv_type) combo = 70 x 9 x 3 = **1,890 vLLM calls**
-- Each call uses the same contrastive prompt as Track 1, producing 2 samples (1 harmful + 1 benign)
-- Target: ~3,780 synthetic samples
-
-**Step 2 — Gap Analysis & Standardization.** Identical to Track 1's Step 5:
-- Analyzes the 54 cells for imbalance (JSON parse failures cause uneven counts)
-- Generates additional samples for under-filled cells
-- Standardizes all cells to the same count
-
-**Step 3 — Gemma Normalization:**
-- Messages normalized for Gemma alternation, `raw_text` built
-- Saved to disk and pushed to the Hub as the eval dataset
-
----
-
-### Key Design Decisions
-
-| Aspect | Choice |
-|---|---|
-| **Generation model** | Qwen 2.5-7B-Instruct-AWQ (fast, fits Colab T4) |
-| **Target model** | Gemma 3-1B-IT (lightweight classifier to be trained) |
-| **Prompt strategy** | Contrastive pairs — each call produces both a harmful and benign example on the same topic, ensuring the model learns the boundary |
-| **Balancing** | Two-stage: coarse hierarchical balancing first, then fine-grained per-cell standardization with generation to minimize duplicate sampling |
-| **Message normalization** | Handles Hub dataset quirks (`:role`, `-role` keys) and enforces alternating user/assistant for Gemma compatibility |
-
----
-
-## **Repository Guide**
-
+## 2. Repository Guide
 This section provides a high-level overview of the repository structure to help you navigate the files and understand their specific purposes:
 
 ### 📁 Root Directory
 - `README.md`: The main documentation for the project, detailing methodology, datasets, and structure.
-- `main.py` / `pyproject.toml`: Project entry points and dependency configurations for standard environment setups.
+- `pyproject.toml`: Dependency configurations for standard environment setups.
+- `main.py`: A streamlit app for interactive use of the trained content classifier models, allowing users to input prompts and receive real-time classifications. 
+  - Terminal Command: `streamlit run main.py`
+
+* **Note**: Use Gemma model in the UI only if you have the necessary GPU resources and are aware of the latency implications. RoBERTa is recommended for general use due to its efficiency. 
 
 ### 📁 scripts/
 Contains all the Jupyter Notebooks used for data processing, model training, and evaluation.
@@ -242,7 +44,7 @@ Stores output metrics, experimental runs, and result datasets generated during n
 
 - **experiments/**: Hyperparameter tracking runs (CSV logs).
 - **metrics/**: JSON files containing the final output scores (AUPR, FPR, Latency) for each trained model.
-- **outputs/**: Test prediction CSVs populated with model confidences (`test_predictions_gemma.csv`, `test_predictions_roberta.csv`).
+- **outputs/**: Test prediction CSVs populated with model confidences (`test_predictions_gemma.csv`, `test_predictions_roberta.csv`). A small subset of these predictions (e.g., `sample_predictions_gemma.csv`, `sample_predictions_roberta.csv`) is also saved for manual review of False Positives/Negatives.
 
 ### 📁 docs/
 Holds PDF versions or Markdown extracts of completed run reports for easier review without re-executing notebooks.
@@ -250,4 +52,154 @@ Holds PDF versions or Markdown extracts of completed run reports for easier revi
 ### 📁 utils/
 - `gpu_verify.py`: Quick diagnostic script to check GPU availability and CUDA bindings before running local training blocks.
 
+---
 
+## 3. Dataset Setup and Curation
+The backbone of this classifier depends on a robust, balanced dataset covering 9 distinct safety categories (e.g., Self-Harm, Illegal Activities, PII Violations) across 3 conversation types (`user_only`, `single_turn`, `multi_turn`).
+
+### 3.1 Training Data Strategy
+- **Sourcing:** Aggregated samples from established open-source benchmarks, including PKU-Alignment (BeaverTails, PKU-SafeRLHF) and Anthropic (HH-RLHF). 
+- **Balancing via vLLM:** Used Qwen 2.5-7B-Instruct-AWQ to classify, mutate, and synthetically generate missing data cells, ensuring a perfect equilibrium across:
+  - Labels (Benign vs. Harmful)
+  - 9 Safety Categories 
+  - 3 Conversation Types
+- **Full Set:** A highly refined and balanced dataset 31,536 samples cleanly stratified to prevent class or categorical imbalance.
+- **Training Set and Validation Set:** A subset of the full dataset was used for training (14148 samples - 90%) and validation (1566 samples - 10%) with the same balanced structure, ensuring that the model learns from a representative distribution of all categories and labels.
+
+
+### 3.2 Evaluation / Testing Data Strategy
+- **Synthetic Generation:** To prevent data leakage and benchmark generalizability, the entire evaluation / testing set (~3,780 samples) was generated from scratch using a contrastive prompt mechanism (1 harmful + 1 benign pair per iteration).
+- **Structure:** Identical hierarchical balance to the training set, yielding exact representations across all 54 target cells (2 labels x 9 categories x 3 conv types).
+
+For the full dataset report: [Dataset Curation Report](.\docs\Dataset%20Generation%20Report.md)
+
+Link to the testing dataset: [VijayRam1812/safety_eval_dataset](https://huggingface.co/datasets/VijayRam1812/safety_eval_dataset)
+
+Link to the full training dataset: [VijayRam1812/safety_dataset](https://huggingface.co/datasets/VijayRam1812/safety_dataset)
+
+---
+
+## 4. Infrastructure and Training Setup
+The model training was orchestrated using Hugging Face's Trainer API, accelerated by Colab GPU runtimes. 
+
+### 4.1 Hyperparameter Tuning
+I incorporated **Optuna Bayesian Optimization** upon researching for optimal methods to intelligently explore the hyperparameter space and automatically converge on the optimal configurations. My primary optimization target was maximizing the Area Under the Precision-Recall Curve (AUPR). 
+
+Parameters explored via Optuna:
+- **Learning Rate:** `1e-6` to `5e-5` (log scale)
+- **Weight Decay:** `0.0` to `0.1`
+- **Batch Size:** `[8, 16, 32]` for RoBERTa, `[4, 8, 16]` for Gemma (due to memory constraints)
+- **Warmup Steps:** `0` to `500`
+
+* *Number of Trials for RoBERTa*: 10 Trials + 1 Final Run (with best hyperparameters)
+* *Number of Trials for Gemma*: 3 Trials + 1 Final Run (with best hyperparameters) [* limited due to computational constraints *]
+    
+### 4.2 Loss Function Correction
+During the initial training runs, I made a conceptual mistake: the Hugging Face Trainer API was set up using `num_labels = 2`. Because `num_labels` was strictly greater than 1, the Trainer defaulted to using standard multi-class Cross-Entropy Loss to treat the problem as multi-class classification. Realizing that the task is fundamentally binary classification, I corrected the setup. I updated the configuration to run with **Binary Cross-Entropy Loss** and `num_labels = 1`, ensuring the models correctly treated the problem as binary classification.
+
+### 4.3 Model Configuration (RoBERTa - Primary)
+RoBERTa was trained as a Sequence Classifier (`AutoModelForSequenceClassification`). Following the correction to the binary loss logic, I trained it successfully. As an encoder-only architecture, RoBERTa is explicitly optimized for full-context comprehension, which is necessary for nuanced content safety checks.
+
+### 4.4 Model Configuration (Gemma - Comparative)
+Gemma (e.g., 1B-IT/3B-IT) was loaded with a classification head. To fully implement the corrected shift to Binary Cross-Entropy Loss with `num_labels = 1`, adapting this SLM involved explicitly implementing a custom `BCETrainer` class to override Hugging Face's default loss behaviors, practically utilizing `nn.BCEWithLogitsLoss` to ensure numerical stability and correct binary logit assessment.
+
+For Gemma Training Report: [Gemma Training Report](.\docs\Gemma%20Training%20Report%20for%20Content%20Identifier.md)
+
+For RoBERTa Training Report: [RoBERTa Training Report](.\docs\RoBERTa%20Training%20Report%20for%20Content%20Identifier.md)
+
+Trained RoBERTa model: [Content Classifier - RoBERTa - HF](https://huggingface.co/VijayRam1812/content-classifier-roberta)
+
+Trained Gemma model: [Content Classifier - Gemma 3-1B-IT - HF](https://huggingface.co/VijayRam1812/content-classifier-gemma)
+
+---
+
+## 5. Evaluation and Results
+
+The evaluation of both models was carried out on the fully synthetic 3,780-sample test set. 
+
+### 5.1 Quantitative Metrics
+
+Results on the Test Set with correct training (BCE Loss):
+
+| Metric | RoBERTa (Primary) | Gemma (Comparative) |
+| :--- | :--- | :--- |
+| **Accuracy** | 95.44% | 93.99% |
+| **Precision** | 95.54% | 95.41% |
+| **Recall** | 95.34% | 92.43% |
+| **F1 Score** | 95.44% | 93.89% |
+| **PR-AUC** | 0.9882 | 0.9815 |
+| **ROC-AUC** | 0.9889 | 0.9807 |
+| **FPR @ 95% TPR** | 4.07% | 7.61% |
+| **FPR @ 90% TPR** | 2.85% | 3.43% |
+| **Avg. Latency per sample (ms)** | 0.335 ms | 5.33 ms |
+
+### 5.2 Comparative Analysis & RoBERTa's Advantages
+
+The results demonstrate that **RoBERTa is the superior choice for real-world deployment**. Not only did it outperform Gemma across virtually all metrics (unlike what was initially assumed), but its inherent structural characteristics multiply its advantages:
+
+1. **Overall Performance:** RoBERTa achieved a comprehensively better metric profile: higher Accuracy (95.44% vs 93.99%), better ROC-AUC (0.9889 vs 0.9807), and significantly lower False Positive Rates (FPR @ 95% TPR is 4.07% for RoBERTa compared to Gemma's 7.61%). This indicates that its representational capacity perfectly managed to capture the complex nuances modeled during our high-quality synthetic data generation better than the heavier SLM architecture.
+2. **Computational Efficiency:** RoBERTa is an encoder-only model with roughly 125M - 355M parameters (depending on Base/Large), phenomenally smaller than the Gemma SLM (1B+ parameters). This translates to massively reduced VRAM footprints during both training and inference.
+3. **Inference Latency:** Classifying incoming prompts or conversations requires real-time speed. As the metrics show, RoBERTa completely outclasses Gemma in inference latency, executing at **0.335 ms per sample** compared to Gemma's sluggish **5.33 ms per sample** - RoBERTa is nearly **16 times faster**. 
+4. **Architectural Suitability:** The task is natively a sequence classification problem. By processing entire bidirectional contexts efficiently, RoBERTa avoids the generation-centric overhead and key-value caching limitations of decoder-only autoregressive models.
+5. **Training Simplicity:** Fine-tuning the RoBERTa model was straightforward and faster, utilizing standard APIs without requiring custom loss implementations (`BCETrainer`) or complex template formatting adjustments necessary for instructional LLMs.
+
+## 6. Learnings and Reflections
+- **Data Quality is Paramount:** 
+  - The meticulous curation and balancing of the dataset using vLLM was critical. 
+  - The model's performance is directly tied to the quality and representativeness of the training data, especially in a nuanced task like content safety classification. 
+  - This is the one phase of the task which consumed majority of the time and effort, but it paid off in the form of superior model performance.
+- **Model Selection Matters:** 
+  - While it was tempting to assume that the larger Gemma SLM would outperform the smaller RoBERTa, the results clearly demonstrated that model architecture and suitability to the task are more important than sheer size. 
+  - RoBERTa's encoder-only design was inherently better suited for this classification task, while Gemma's generative architecture introduced unnecessary complexity and latency. 
+  - There is a possibility of bigger sized complex Gemma models outperforming RoBERTa, but the latency and resource consumption trade-offs are something to discuss and consider when in real world deployment scenarios.
+- **Hyperparameter Tuning is Essential:** 
+  - The use of Optuna for automated hyperparameter optimization was a game-changer. 
+  - It allowed for efficient exploration of the hyperparameter space and ensured that both models were trained under optimal conditions, maximizing their performance on the test set.
+- **Loss Function Alignment is Critical:** 
+  - The initial oversight in using Cross-Entropy Loss for a binary classification task highlighted the importance of aligning the loss function with the problem type. 
+  - Correcting this to Binary Cross-Entropy Loss was essential for achieving the high performance observed in the final results.
+- **Evaluation Metrics Must be Comprehensive:**
+  - Relying solely on AUPR and ROC-AUC would have provided an incomplete picture of model performance. 
+  - Incorporating additional metrics like Accuracy, Precision, Recall, F1 Score, and Inference Latency was crucial for a holistic evaluation and for making informed decisions about model deployment in real-world scenarios.
+- **Possibility to extract more performance from RoBERTa and Gemma models**: 
+  - While the current results are strong for the current training methods and dataset quality, I believe there are many other combinations of hyperparameters, training methods, and even dataset nuances that may affect the performance of both models. 
+  - In the given scenario and scope of the task combined with the available resources and time, I believe that the current choices and decisions taken with respect to these aspects were optimal, but there is always room for further experimentation and improvement.
+
+
+## 7. Conclusion
+Through meticulously balanced dataset generation via vLLM and rigorous optimization using Optuna, I successfully established a highly accurate Content Identifier. **RoBERTa** decisively stands out as the optimal primary model. By delivering ~95.4% accuracy, a remarkable ROC-AUC of 0.9889, and blazing-fast inference (~0.335 ms/sample), it not only achieved superior classification capability but perfectly avoided the heavy deployment and latency costs inherent to SLMs, making it the most sensible and adaptable choice for enterprise infrastructure.
+
+
+## 8. References and Appendix
+- [Hugging Face Transformers Documentation](https://huggingface.co/docs/transformers/index)
+
+- [Optuna Hyperparameter Optimization](https://optuna.org/)
+
+- [vLLM for Data Generation](https://docs.vllm.ai/en/latest/)
+
+- [Google Colab for GPU Training](https://colab.research.google.com/)
+
+- **Datasets**:
+  - [BeaverTails](https://huggingface.co/datasets/PKU-Alignment/BeaverTails)
+  - [PKU-SafeRLHF](https://huggingface.co/datasets/PKU-Alignment/PKU-SafeRLHF)
+  - [Anthropic/hh-rlhf](https://huggingface.co/datasets/Anthropic/hh-rlhf)
+
+- **Models**: 
+  - [RoBERTa](https://huggingface.co/roberta-base)
+  - [Gemma 3-1B-IT](https://huggingface.co/google/gemma-3-1b-it)
+  - [Qwen 2.5-7B-Instruct-AWQ](https://huggingface.co/Qwen/Qwen-2.5-7B-Instruct-AWQ) [*used for dataset generation*]
+
+- **AI Tools**:
+  - ***Github Copilot (Gemini, Claude)***:
+    -  For code suggestions, error fixes, optimization and documentation generation. Additionally, used for prompt engineering and template design for synthetic data generation.
+  - ***Google Gemini***:
+    - For brainstorming, finding data sources and research for best practices in dataset curation, model training, and evaluation. Additionally, used for prompt engineering and template design for synthetic data generation.
+  - ***Perplexity AI***:
+    - For finding credible sources for dataset and model training best practices, and for quick grounded clarifications on concepts related to the task.
+
+- **Additional References**:
+  - [vLLM LLM Engine Configuration](https://docs.vllm.ai/en/latest/configuration/engine_args/#modelconfig)
+  - [Hugging Face AWQ Quantization](https://huggingface.co/docs/transformers/v5.2.0/quantization/awq)
+  - [vLLM Sampling Parameters](https://docs.vllm.ai/en/v0.4.1/dev/sampling_params.html)
+  - [Gemma Fine-Tuning for Classification Tasks - Medium](https://medium.com/@sabaybiometzger/gemma-3-fine-tuning-for-classification-tasks-06e04eb6d0f6)
+  - [Optuna Bayesian Hyperparameter Tuning Guide - Medium](https://medium.com/@avinashyadav16/bayesian-hyperparameter-tuning-with-optuna-a-beginner-friendly-guide-6a426f43c76e)
