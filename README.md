@@ -6,7 +6,7 @@ This report details the end-to-end process of building a binary classification m
 
 **RoBERTa** was selected as the primary model for its strong performance in text classification tasks while remaining highly resource-efficient. To validate this choice, I also trained a **Gemma** Small Language Model (SLM) for comparison. The results demonstrate that RoBERTa achieves near state-of-the-art accuracy that is statistically comparable to the heavier Gemma model, offering significant advantages in inference speed, compute efficiency, and deployment feasibility for enterprise applications.
 
-> For detailed approach and step by step thought process: [Approach and Thought Process](.\docs\Approach%20and%20Thought%20Process.md)
+> For detailed approach and step by step thought process: [Approach and Thought Process](https://github.com/VjayRam/Content-Identifier/blob/main/docs/Approach%20and%20Thought%20Process.md)
 
 ---
 ## 2. Repository Guide
@@ -22,14 +22,14 @@ This section provides a high-level overview of the repository structure to help 
 
 ### 📁 scripts/
 Contains all the Jupyter Notebooks used for data processing, model training, and evaluation.
-- `train_data_generator.ipynb`: Code for curating, balancing, and synthetically generating the training dataset (Track 1). [Click to view](.\scripts\train_data_generator.ipynb)
-- `eval_data_generator.ipynb`: Code for generating the purely synthetic evaluation dataset (Track 2). [Click to view](.\scripts\eval_data_generator.ipynb)
-- `data_processing.ipynb`: Utility notebook for testing out raw message parsing and standardization mappings. [Click to view](.\scripts\data_processing.ipynb)
-- `model_trainer_roberta.ipynb`: Complete training pipeline for the RoBERTa model, including Optuna hyperparameter sweeps. [Click to view](.\scripts\model_trainer_roberta.ipynb)
-- `model_trainer_gemma.ipynb`: Complete training pipeline for the Gemma 3-1B-IT model, using a custom BCE Loss implementation for binary classification. [Click to view](.\scripts\model_trainer_gemma.ipynb)
-- `model_evaluation_roberta.ipynb`: Evaluation script for RoBERTa, producing test metrics (AUPR, ROC AUC, FPR) and False Positive/Negative reviews. [Click to view](.\scripts\model_evaluation_roberta.ipynb)
-- `model_evaluation_gemma.ipynb`: Evaluation script for Gemma 3-1B-IT, producing identical test metrics. [Click to view](.\scripts\model_evaluation_gemma.ipynb)
-- `model_inferencing.ipynb`: An inference sandbox providing single-sample and batch-processing wrapper functions for quick testing across both models. [Click to view](.\scripts\model_inferencing.ipynb)
+- `train_data_generator.ipynb`: Code for curating, balancing, and synthetically generating the training dataset (Track 1). [Click to view](https://github.com/VjayRam/Content-Identifier/blob/main/scripts/train_data_generator.ipynb)
+- `test_data_generator.ipynb`: Code for generating the purely synthetic evaluation dataset (Track 2). [Click to view](https://github.com/VjayRam/Content-Identifier/blob/main/scripts/test_data_generator.ipynb)
+- `data_processing.ipynb`: Utility notebook for testing out raw message parsing and standardization mappings. [Click to view](https://github.com/VjayRam/Content-Identifier/blob/main/scripts/data_processing.ipynb)
+- `model_trainer_roberta.ipynb`: Complete training pipeline for the RoBERTa model, including Optuna hyperparameter sweeps. [Click to view](https://github.com/VjayRam/Content-Identifier/blob/main/scripts/model_trainer_roberta.ipynb)
+- `model_trainer_gemma.ipynb`: Complete training pipeline for the Gemma 3-1B-IT model, using a custom BCE Loss implementation for binary classification. [Click to view](https://github.com/VjayRam/Content-Identifier/blob/main/scripts/model_trainer_gemma.ipynb)
+- `model_evaluation_roberta.ipynb`: Evaluation script for RoBERTa, producing test metrics (AUPR, ROC AUC, FPR) and False Positive/Negative reviews. [Click to view](https://github.com/VjayRam/Content-Identifier/blob/main/scripts/model_evaluation_roberta.ipynb)
+- `model_evaluation_gemma.ipynb`: Evaluation script for Gemma 3-1B-IT, producing identical test metrics. [Click to view](https://github.com/VjayRam/Content-Identifier/blob/main/scripts/model_evaluation_gemma.ipynb)
+- `model_inferencing.ipynb`: An inference sandbox providing single-sample and batch-processing wrapper functions for quick testing across both models. [Click to view](https://github.com/VjayRam/Content-Identifier/blob/main/scripts/model_inferencing.ipynb)
 
 ### 📁 data/
 Stores the raw datasets and generated files used throughout the project lifecycle.
@@ -40,7 +40,7 @@ Stores the raw datasets and generated files used throughout the project lifecycl
 ### 📁 logs/
 Stores output metrics, experimental runs, and result datasets generated during notebook execution.
 
-> **Note:** Files with the suffix `_01` indicate results or outcomes from models trained using standard Cross-Entropy Loss (treated as multi-class classification), whereas files with the suffix `_02` represent outcomes from models properly trained using Binary Cross-Entropy (BCE) Loss (binaru classification).
+> **Note:** Files with the suffix `_01` indicate results or outcomes from models trained using standard Cross-Entropy Loss (treated as multi-class classification), whereas files with the suffix `_02` represent outcomes from models properly trained using Binary Cross-Entropy (BCE) Loss (binary classification).
 
 - **experiments/**: Hyperparameter tracking runs (CSV logs).
 - **metrics/**: JSON files containing the final output scores (AUPR, FPR, Latency) for each trained model.
@@ -50,10 +50,10 @@ Stores output metrics, experimental runs, and result datasets generated during n
 
 ### 📁 docs/
 Contains detailed reports and documentation on the dataset curation process, model training, and evaluation results.
-- `Dataset Generation Report.md`: A comprehensive report on the dataset curation strategy, including the use of vLLM for balancing and synthetic generation. [(Click to view)](.\docs\Dataset%20Generation%20Report.md)
-- `Approach and Thought Process.md`: A detailed walkthrough of the entire project, from initial planning to final evaluation, including the rationale behind each decision and the methodologies implemented. [(Click to view)](.\docs\Approach%20and%20Thought%20Process.md)
-- `RoBERTa Training Report for Content Identifier.md`: A detailed report on the training process for the RoBERTa model, including hyperparameter tuning results and final performance metrics. [(Click to view)](.\docs\RoBERTa%20Training%20Report%20for%20Content%20Identifier.md)
-- `Gemma Training Report for Content Identifier.md`: A detailed report on the training process for the Gemma model, including the implementation of Binary Cross-Entropy Loss and final performance metrics. [(Click to view)](.\docs\Gemma%20Training%20Report%20for%20Content%20Identifier.md)
+- `Dataset Generation Report.md`: A comprehensive report on the dataset curation strategy, including the use of vLLM for balancing and synthetic generation. [(Click to view)](https://github.com/VjayRam/Content-Identifier/blob/main/docs/Dataset%20Generation%20Report.md)
+- `Approach and Thought Process.md`: A detailed walkthrough of the entire project, from initial planning to final evaluation, including the rationale behind each decision and the methodologies implemented. [(Click to view)](https://github.com/VjayRam/Content-Identifier/blob/main/docs/Approach%20and%20Thought%20Process.md)
+- `RoBERTa Training Report for Content Identifier.md`: A detailed report on the training process for the RoBERTa model, including hyperparameter tuning results and final performance metrics. [(Click to view)](https://github.com/VjayRam/Content-Identifier/blob/main/docs/RoBERTa%20Training%20Report%20for%20Content%20Identifier.md)
+- `Gemma Training Report for Content Identifier.md`: A detailed report on the training process for the Gemma model, including the implementation of Binary Cross-Entropy Loss and final performance metrics. [(Click to view)](https://github.com/VjayRam/Content-Identifier/blob/main/docs/Gemma%20Training%20Report%20for%20Content%20Identifier.md)
 
 ### 📁 utils/
 - `gpu_verify.py`: Quick diagnostic script to check GPU availability and CUDA bindings before running local training blocks.
@@ -77,7 +77,7 @@ The backbone of this classifier depends on a robust, balanced dataset covering 9
 - **Synthetic Generation:** To prevent data leakage and benchmark generalizability, the entire evaluation / testing set (~3,780 samples) was generated from scratch using a contrastive prompt mechanism (1 harmful + 1 benign pair per iteration).
 - **Structure:** Identical hierarchical balance to the training set, yielding exact representations across all 54 target cells (2 labels x 9 categories x 3 conv types).
 
-For the full dataset report: [Dataset Curation Report](.\docs\Dataset%20Generation%20Report.md)
+For the full dataset report: [Dataset Curation Report](https://github.com/VjayRam/Content-Identifier/blob/main/docs/Dataset%20Generation%20Report.md)
 
 Link to the testing dataset: [VijayRam1812/safety_eval_dataset](https://huggingface.co/datasets/VijayRam1812/safety_eval_dataset)
 
@@ -107,14 +107,14 @@ During the initial training runs, I made a conceptual mistake: the Hugging Face 
 RoBERTa was trained as a Sequence Classifier (`AutoModelForSequenceClassification`). Following the correction to the binary loss logic, I trained it successfully. As an encoder-only architecture, RoBERTa is explicitly optimized for full-context comprehension, which is necessary for nuanced content safety checks.
 
 
-For RoBERTa Training Report: [RoBERTa Training Report](.\docs\RoBERTa%20Training%20Report%20for%20Content%20Identifier.md)
+For RoBERTa Training Report: [RoBERTa Training Report](https://github.com/VjayRam/Content-Identifier/blob/main/docs/RoBERTa%20Training%20Report%20for%20Content%20Identifier.md)
 
 Trained RoBERTa model: [Content Classifier - RoBERTa - HF](https://huggingface.co/VijayRam1812/content-classifier-roberta)
 
 ### 4.4 Model Configuration (Gemma - Comparative)
 Gemma (e.g., 1B-IT/3B-IT) was loaded with a classification head. To fully implement the corrected shift to Binary Cross-Entropy Loss with `num_labels = 1`, adapting this SLM involved explicitly implementing a custom `BCETrainer` class to override Hugging Face's default loss behaviors, practically utilizing `nn.BCEWithLogitsLoss` to ensure numerical stability and correct binary logit assessment.
 
-For Gemma Training Report: [Gemma Training Report](.\docs\Gemma%20Training%20Report%20for%20Content%20Identifier.md)
+For Gemma Training Report: [Gemma Training Report](https://github.com/VjayRam/Content-Identifier/blob/main/docs/Gemma%20Training%20Report%20for%20Content%20Identifier.md)
 
 Trained Gemma model: [Content Classifier - Gemma 3-1B-IT - HF](https://huggingface.co/VijayRam1812/content-classifier-gemma)
 
