@@ -1,5 +1,4 @@
 # Content Identifier: Training and Evaluation Report
-Task Link: [Gray Swan Take Home Technical Task](https://you.ashbyhq.com/Gray%20Swan%20AI/assignment/d5de60e3-292d-446f-90d2-c1f61559afe2)
 
 ## 1. Summary
 This report details the end-to-end process of building a binary classification model designed to identify harmful content within conversational data. The project involves comprehensive dataset curation, automated hyperparameter tuning, model training, and rigorous evaluation. 

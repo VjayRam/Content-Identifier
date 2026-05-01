@@ -1,7 +1,7 @@
 [project]
 name = "content-id"
 version = "0.1.0"
-description = "A take home task for Gray Swan AI to build a content detection model"
+description = "Binary content safety classifier training and evaluation (RoBERTa and Gemma)"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
